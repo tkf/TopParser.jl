@@ -123,12 +123,13 @@ function Base.iterate(it::ProcessIterator, _ignored = nothing)
 
     ln = readline(io)
     cols = split(ln, limit = 12)
-    if length(cols) < 12
+    if length(cols) < 11
         it.done = true
         return nothing
     end
 
-    let (pid, user, pr, ni, virt, res, shr, s, pcpu, pmem, time, command) = cols
+    let (pid, user, pr, ni, virt, res, shr, s, pcpu, pmem, time) = cols
+        command = get(cols, 12, "")
         args = (
             tryparse(Int, pid),
             Symbol(user),
